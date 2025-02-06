@@ -27,6 +27,10 @@ public class DietaryLabelService {
         return dietaryLabelRepository.save(dietaryLabel);
     }
 
+    public List<DietaryLabel> saveAll(List<DietaryLabel> dietaryLabels) {
+        return dietaryLabelRepository.saveAll(dietaryLabels);
+    }
+
     public DietaryLabel updateDietaryLabel(Long id, DietaryLabel updatedDietaryLabel) {
         DietaryLabel existingDietaryLabel = getDietaryLabelById(id);
 

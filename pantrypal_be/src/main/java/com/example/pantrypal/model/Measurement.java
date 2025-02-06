@@ -2,9 +2,10 @@ package com.example.pantrypal.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-
+import lombok.*;
 import java.util.List;
 
+@Getter
 @Entity
 public class Measurement {
 
@@ -12,8 +13,10 @@ public class Measurement {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     private String unit; // e.g. g or ml
 
+    @Setter
     @OneToMany(mappedBy = "measurement")
     private List<Product> products;
 
@@ -22,27 +25,5 @@ public class Measurement {
     @NotBlank(message = "Unit is required")
     public Measurement(String unit) {
         this.unit = unit;
-    }
-
-    // Getters and Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
-    public List<Product> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<Product> products) {
-        this.products = products;
     }
 }

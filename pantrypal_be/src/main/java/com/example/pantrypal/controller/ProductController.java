@@ -1,5 +1,6 @@
 package com.example.pantrypal.controller;
 
+import com.example.pantrypal.model.DietaryLabel;
 import com.example.pantrypal.model.Product;
 import com.example.pantrypal.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,16 @@ public class ProductController {
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         Product savedProduct = productService.createProduct(product);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedProduct);
+    }
+
+    @PostMapping("/addList")
+    public ResponseEntity<List<Product>> addProducts(@RequestBody List<Product> products) {
+        return ResponseEntity.ok(productService.saveAll(products));
+    }
+
+    @PostMapping("/{id}/add-dietary-labels")
+    public ResponseEntity<Product> addDietaryLabels(@PathVariable Long id, @RequestBody List<String> dietaryLabels) {
+        return ResponseEntity.ok(productService.addDietaryLabels(id, dietaryLabels));
     }
 
     @PatchMapping("/{id}")

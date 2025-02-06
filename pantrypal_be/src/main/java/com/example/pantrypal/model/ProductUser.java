@@ -3,8 +3,10 @@ package com.example.pantrypal.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 import java.time.LocalDate;
 
+@Getter
 @Entity
 public class ProductUser {
 
@@ -12,57 +14,23 @@ public class ProductUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    @Setter
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Setter
     @Column(name = "expiry_date")
     @NotBlank(message = "Expiry Date is required")
     private LocalDate expiryDate;
 
+    @Setter
     @Min(0)
-    @NotBlank(message = "Amount is required")
-    private Long amount;
-
-    // Getters & Setters
-
-    public Long getId() {
-        return id;
-    }
-
-    public Long getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Long amount) {
-        this.amount = amount;
-    }
-
-    public LocalDate getExpiryDate() {
-        return expiryDate;
-    }
-
-    public void setExpiryDate(LocalDate expiryDate) {
-        this.expiryDate = expiryDate;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
-    }
+    @NotBlank(message = "Quantity is required")
+    private int quantity;
 }

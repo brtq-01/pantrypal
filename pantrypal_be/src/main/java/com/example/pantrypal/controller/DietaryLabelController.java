@@ -2,6 +2,7 @@ package com.example.pantrypal.controller;
 
 
 import com.example.pantrypal.model.DietaryLabel;
+import com.example.pantrypal.model.Product;
 import com.example.pantrypal.service.DietaryLabelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,6 +32,11 @@ public class DietaryLabelController {
     public ResponseEntity<DietaryLabel> createDietaryLabel(@RequestBody DietaryLabel dietaryLabel) {
         DietaryLabel savedDietaryLabel = dietaryLabelService.createDietaryLabel(dietaryLabel);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedDietaryLabel);
+    }
+
+    @PostMapping("/addList")
+    public ResponseEntity<List<DietaryLabel>> addDietaryLabels(@RequestBody List<DietaryLabel> dietaryLabels) {
+        return ResponseEntity.ok(dietaryLabelService.saveAll(dietaryLabels));
     }
 
     @PatchMapping("/{id}")
