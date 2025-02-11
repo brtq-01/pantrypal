@@ -4,6 +4,8 @@ import com.example.pantrypal.model.User;
 import com.example.pantrypal.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,28 +16,22 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    public User getUserById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
-    }
-
-    public User createUser(User user) {
+    public User registeredUser(String username, String password) {
+        String hashedPassword = passwordEncoder.encode(password);
+        User user = new User(username, hashedPassword);
         return userRepository.save(user);
     }
 
-    public User updateUser(Long id, User updatedUser) {
-        User existingUser = getUserById(id);
-
-        // Update User
-
-        return userRepository.save(existingUser);
-    }
-
-    public void deleteUser(Long id) {
-        userRepository.deleteById(id);
+    public User authenticate(String username, String password){
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        if(passwordEncoder.matches(password, user.getPassword())) {
+            return user;
+        } else {
+            throw new BadCredentialsException("Invalid Credentials");
+        }
     }
 }
