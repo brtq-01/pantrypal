@@ -27,6 +27,16 @@ public class ProductController {
         return ResponseEntity.ok(productService.getProductById(id));
     }
 
+    @GetMapping("/list/{dietarylabel}")
+    public ResponseEntity<List<Product>> getProductsByDietaryLabel(@PathVariable String dietarylabel){
+        return ResponseEntity.ok(productService.getProductsByDietaryLabel(dietarylabel));
+    }
+
+    @GetMapping("/list/sorted")
+    public ResponseEntity<List<Product>> getProductsSorted(@RequestParam String column, @RequestParam boolean asc){
+        return ResponseEntity.ok(productService.getProductsSorted(column, asc));
+    }
+
     @PostMapping
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
         Product savedProduct = productService.createProduct(product);

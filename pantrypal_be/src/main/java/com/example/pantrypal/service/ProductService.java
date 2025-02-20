@@ -6,6 +6,7 @@ import com.example.pantrypal.repository.DietaryLabelRepository;
 import com.example.pantrypal.repository.ProductRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +27,15 @@ public class ProductService {
     public Product getProductById(Long id) {
         return productRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Product not found"));
+    }
+
+    public List<Product> getProductsByDietaryLabel(String dietarylabel){
+        return productRepository.findByDietaryLabel(dietarylabel);
+    }
+
+    public List<Product> getProductsSorted(String columnName, boolean ascending){
+        Sort sort = ascending ? Sort.by(columnName).ascending() : Sort.by(columnName).descending();
+        return productRepository.findAll(sort);
     }
 
     public Product createProduct(Product product) {
